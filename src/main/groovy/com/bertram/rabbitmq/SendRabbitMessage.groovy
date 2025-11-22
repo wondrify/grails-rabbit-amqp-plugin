@@ -24,7 +24,6 @@ import org.springframework.context.ApplicationContext
 import org.springframework.amqp.core.MessagePostProcessor
 
 @Enhances([DefaultGrailsServiceClass.SERVICE, DefaultGrailsControllerClass.CONTROLLER])
-@CompileStatic
 trait SendRabbitMessage {
 	public sendRabbitMessage(Object message ) {
         grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService).convertAndSend(message)

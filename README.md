@@ -1,0 +1,3 @@
+## Grails RabbitMQ Plugin - Enhanced
+
+

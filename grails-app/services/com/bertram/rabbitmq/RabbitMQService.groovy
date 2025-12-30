@@ -12,7 +12,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate
  * This is the class the dynamically added service methods will delegate to for rabbit message sending
  * @author jsaardchit
  */
-class RabbitMQService {
+public class RabbitMQService {
     static transactional = false
     def grailsApplication
 

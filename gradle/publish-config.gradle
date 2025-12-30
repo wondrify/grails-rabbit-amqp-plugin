@@ -3,11 +3,11 @@ import org.apache.grails.gradle.publish.GrailsPublishExtension
 extensions.configure(GrailsPublishExtension) {
 	// Explicit `it` is required here
 	it.artifactId = findProperty('pomArtifactId') ?: project.name
-	it.githubSlug = 'wondrify/karman-core'
+	it.githubSlug = 'wondrify/grails-rabbit-amqp-plugin'
 	it.license.name = 'Apache-2.0'
 	it.title = findProperty('pomTitle') ?: project.name
-	it.desc = findProperty('pomDescription') ?: "JVM Karman File/Object Abstraction Library"
-	it.developers = findProperty('pomDevelopers') as Map<String, String> ?: [davydotcom: 'David Estes']
+	it.desc = findProperty('pomDescription') ?: "A rabbitmq grails plugin implementation"
+	it.developers = findProperty('pomDevelopers') as Map<String, String> ?: [davydotcom: 'David Estes', jsaardchit: 'Jordon Saardchit', bdwheeler: "Brian Wheeler"]
 	it.publicationName = findProperty('pomMavenPublicationName') ?: 'maven'
 	it.addComponents = project.name != 'karman-gradle'
 }

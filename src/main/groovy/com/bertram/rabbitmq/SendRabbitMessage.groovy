@@ -15,6 +15,8 @@
  */
 package com.bertram.rabbitmq
 
+import com.bertram.rabbitmq.RabbitMQService
+
 import grails.artefact.Enhances
 import groovy.transform.CompileStatic
 import org.grails.core.DefaultGrailsControllerClass
@@ -24,20 +26,26 @@ import org.springframework.context.ApplicationContext
 import org.springframework.amqp.core.MessagePostProcessor
 
 @Enhances([DefaultGrailsServiceClass.SERVICE, DefaultGrailsControllerClass.CONTROLLER])
+@CompileStatic
 trait SendRabbitMessage {
 	public sendRabbitMessage(Object message ) {
-        grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService).convertAndSend(message)
+        RabbitMQService rabbitMQService = grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService) as RabbitMQService
+        rabbitMQService.convertAndSend(message)
     }
     public sendRabbitMessage(String alias, Object message ) {
-        grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService).convertAndSend(alias, message)
+        RabbitMQService rabbitMQService = grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService) as RabbitMQService
+        rabbitMQService.convertAndSend(alias, message)
     }
     public sendRabbitMessage(String alias, String routingKey, Object message ) {
-        grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService).convertAndSend(alias, routingKey, message)
+        RabbitMQService rabbitMQService = grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService) as RabbitMQService
+        rabbitMQService.convertAndSend(alias, routingKey, message)
     }
     public sendRabbitMessage(String alias, String exchange, String routingKey, Object message ) {
-        grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService).convertAndSend(alias, exchange, routingKey, message)
+        RabbitMQService rabbitMQService = grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService) as RabbitMQService
+        rabbitMQService.convertAndSend(alias, exchange, routingKey, message)
     }
     public sendRabbitMessage(String alias, String exchange, String routingKey, Object message, MessagePostProcessor processor ) {
-        grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService).convertAndSend(alias, exchange, routingKey, message, processor)
+        RabbitMQService rabbitMQService = grails.util.Holders.applicationContext.getBean('rabbitMQService', RabbitMQService) as RabbitMQService
+        rabbitMQService.convertAndSend(alias, exchange, routingKey, message, processor)
     }
 }

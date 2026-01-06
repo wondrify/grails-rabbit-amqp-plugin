@@ -25,7 +25,7 @@ class ListenerConfigurer {
     def registerQueueListener( beanBuilder, config ) {
         log.debug( "Registering Queue Listener for: ${config}")
 	    def adapterName = config.listenerMethodName ? "${config.serviceName}.${config.listenerMethodName}" : null
-
+        SimpleMessageConverter defaultConverter = converter()
         // Build queue bean
         beanBuilder."${SpringBeanUtils.getQueueBeanName(config.queueName)}"( org.springframework.amqp.core.Queue,
                 config.queueName,
@@ -47,7 +47,7 @@ class ListenerConfigurer {
 			// build adapter bean
 			beanBuilder."${SpringBeanUtils.getAdapterBeanName(adapterName)}"( MessageListenerAdapter ) { beanDefinition ->
 				beanDefinition.constructorArgs = [ref(SpringBeanUtils.getServiceDelegateBeanName(config.queueName))]
-                messageConverter = converter()
+                messageConverter = defaultConverter
 			}
 	    }
 
@@ -87,7 +87,7 @@ class ListenerConfigurer {
         def beanQueueName = "${getQueueListener(config.exchange?.name ?: config.exchangeName)}" // NOTE: this is used for the spring bean name
         def serviceDelegateName = "${SpringBeanUtils.getServiceDelegateBeanName(beanQueueName)}"
         def containerName = "${SpringBeanUtils.getContainerBeanName(SpringBeanUtils.getExchangeBeanName(config.exchange?.name ?: config.exchangeName))}"
-
+        SimpleMessageConverter defaultConverter = converter()
         if(config.multiSubscriber) {
             beanQueueName = "${beanQueueName}_${nameSuffix}"
             serviceDelegateName = "${serviceDelegateName}_${nameSuffix}"
@@ -160,7 +160,7 @@ class ListenerConfigurer {
 
             beanBuilder."${SpringBeanUtils.getAdapterBeanName(adapterName)}"( MessageListenerAdapter ) { beanDefinition ->
                 beanDefinition.constructorArgs = [ref(serviceDelegateName)]
-                messageConverter = converter()
+                messageConverter = defaultConverter
             }
         }
 

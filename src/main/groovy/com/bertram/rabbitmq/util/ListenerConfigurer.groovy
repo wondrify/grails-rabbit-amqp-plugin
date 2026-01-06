@@ -46,7 +46,8 @@ class ListenerConfigurer {
 
 			// build adapter bean
 			beanBuilder."${SpringBeanUtils.getAdapterBeanName(adapterName)}"( MessageListenerAdapter ) { beanDefinition ->
-				beanDefinition.constructorArgs = [ref(SpringBeanUtils.getServiceDelegateBeanName(config.queueName)), converter()]
+				beanDefinition.constructorArgs = [ref(SpringBeanUtils.getServiceDelegateBeanName(config.queueName))]
+                messageConverter = converter()
 			}
 	    }
 
@@ -158,7 +159,8 @@ class ListenerConfigurer {
             }
 
             beanBuilder."${SpringBeanUtils.getAdapterBeanName(adapterName)}"( MessageListenerAdapter ) { beanDefinition ->
-                beanDefinition.constructorArgs = [ref(serviceDelegateName), converter()]
+                beanDefinition.constructorArgs = [ref(serviceDelegateName)]
+                messageConverter = converter()
             }
         }
 
@@ -211,7 +213,8 @@ class ListenerConfigurer {
 
         // Our message handler
         def msgHandler = newCtx.getBean("${SpringBeanUtils.getClosureDelegateBeanName(config.queueName)}")
-	    def adapter = new MessageListenerAdapter(msgHandler, converter())
+	    def adapter = new MessageListenerAdapter(msgHandler)
+        adapter.setMessageConverter(converter())
 
         def container = newCtx.getBean("${SpringBeanUtils.getContainerBeanName(SpringBeanUtils.getExchangeBeanName(config.exchangeName))}")
         container.messageListener = adapter
@@ -237,7 +240,8 @@ class ListenerConfigurer {
 
 		// grab out message handler and add it to our container
 		def msgHandler = newCtx.getBean("${SpringBeanUtils.getClosureDelegateBeanName(config.queueName)}")
-		def adapter = new MessageListenerAdapter(msgHandler, converter())
+		def adapter = new MessageListenerAdapter(msgHandler)
+        adapter.setMessageConverter(converter())
 
 		def container = newCtx.getBean("${SpringBeanUtils.getContainerBeanName(SpringBeanUtils.getQueueBeanName(config.queueName))}")
 		container.messageListener = adapter
